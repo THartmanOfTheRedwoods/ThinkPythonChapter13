@@ -3,6 +3,11 @@ import os.path
 import shelve
 import hashlib
 
+def same_contents(path1, path2):
+    data1 = open(path1, 'rb').read()
+    data2 = open(path2, 'rb').read()
+    return data1 == data2
+
 def walk_images(directory, extensions, db, max_depth=-1):
     for root, dirs, files in os.walk(directory, topdown=True):
         if max_depth != -1:  # We only care about depth update if the parameter is set.
@@ -53,6 +58,7 @@ def main():
     for digest, paths in db.items():
         if len( paths ) > 1:
             print( paths )
+            print("Are they the same?", same_contents(*paths))
 
 if __name__ == '__main__':
     main()
